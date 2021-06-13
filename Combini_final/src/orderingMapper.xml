@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Order -->
+<mapper namespace="combini.dao.OrderProductsMapper">
+
+	<insert id="insertOrderProducts" parameterType="OrderProducts">
+
+		INSERT INTO order_products(
+		order_product_code
+		,product_code
+		,product_name
+		,order_count
+		,order_code)
+		VALUES(
+		order_products_seq.nextval || '_' || #{product_code}
+		,#{product_code}
+		,#{product_name}
+		,#{order_count}
+		,'order_' || ordering_seq.currval)
+
+	</insert>
+
+	<insert id="insertOrdering" parameterType="int">
+		INSERT INTO ordering(
+		order_code
+		,total_order_price
+		,order_status)
+		VALUES(
+		'order_' || ordering_seq.nextval
+		,#{total_order_price}
+		,1)
+	</insert>
+
+	<select id="selectTheLatest" resultType="Ordering">
+		SELECT *
+		FROM ordering
+		WHERE order_date = (select max(order_date) from ordering)
+	</select>
+
+	<update id="updateOrdering" parameterType="Ordering">
+		UPDATE ordering
+		SET total_order_price = #{total_order_price}
+		WHERE order_code = #{order_code}
+	</update>
+	
+	<select id="selectOrderStatus" parameterType = "String" resultType ="Ordering">
+		SELECT *
+		FROM 
+			ordering
+		WHERE
+			order_code = #{order_code}
+	</select>
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Products -->
+<mapper namespace="combini.dao.ProductsMapper">
+
+	<select id="selectOne" parameterType="String" resultType="Products">
+		SELECT *
+		FROM products
+		WHERE product_name = #{product_name}
+	</select>
+	
+	<select id="selectMultiple" parameterType="String" resultType="Products">
+		SELECT *
+		FROM products
+		WHERE product_name LIKE '%' || #{product_name} || '%'
+	</select>
+	
+	<select id="selectAll" resultType="Products">
+		SELECT *
+		FROM products
+		ORDER BY product_code DESC
+	</select>
+	
+	<update id="updateStock" parameterType = "Products">
+		UPDATE products
+		SET
+			stock = stock + #{stock}
+		WHERE
+			product_name = #{product_name}	
+	</update>
+
+</mapper>

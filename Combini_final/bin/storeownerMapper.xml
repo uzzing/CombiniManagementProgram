@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- store owner -->
+<mapper namespace="combini.dao.StoreOwnerMapper">
+
+	<insert id="register" parameterType="StoreOwner">
+		INSERT INTO store_owner(
+		owner_id
+		,owner_pwd
+		,owner_name
+		,owner_phone
+		,branch_name)
+		VALUES(
+		#{owner_id}
+		,#{owner_pwd}
+		,#{owner_name}
+		,#{owner_phone}
+		,#{branch_name})
+	</insert>
+
+	<select id="login" parameterType="StoreOwner" resultType="StoreOwner">
+		SELECT *
+		FROM store_owner
+		WHERE owner_id = #{owner_id}
+		AND owner_pwd = #{owner_pwd}
+	</select>
+
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SaleProducts -->
+<!-- Used Join vo -->
+<mapper namespace="combini.dao.SaleProductsMapper">
+
+	<select id="selectSaleProducts" parameterType="String" resultType="Join">
+		SELECT
+			p.product_code
+			,p.product_name
+			,p.price
+			,to_date(s.start_date, 'YYYY/MM/DD') as start_date
+			,to_date(s.last_date, 'YYYY/MM/DD') as last_date
+		FROM
+			products p
+			,sale_products s
+		WHERE
+			p.product_code = s.product_code
+		AND
+			#{sale_date} >= s.start_date
+		AND
+			s.last_date >= #{sale_date}
+	</select>
+</mapper>
